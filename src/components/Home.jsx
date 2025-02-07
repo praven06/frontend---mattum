@@ -1,23 +1,25 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import axios from "axios";
+
 import React, { useState } from "react";
-import { MdFoodBank } from "react-icons/md";
-import { CgGym } from "react-icons/cg";
-import {
-  FiBarChart,
+import { FaUserPlus } from "react-icons/fa6";
+import { IoBarChartOutline, IoCreate } from "react-icons/io5";
+import {                
+  FiBarChart2,
   FiChevronsRight,
-  FiHome,
-  FiList,
   FiLogOut,
 } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import { HiMiniUsers } from "react-icons/hi2";
+
 import { motion } from "framer-motion";
 import HomeContent from "./HomeContent";
 
 export const Home = () => {
+  const navigate = useNavigate()
   const [selected, setSelected] = useState("Dashboard");
   return (
-    <div className="flex bg-gray-900 text-gray-50">
+    <div className="flex bg-[#f0fdf4] text-gray-900">
       <Sidebar selected={selected} setSelected={setSelected} />
       <HomeContent selected={selected} />
     </div>
@@ -25,12 +27,13 @@ export const Home = () => {
 };
 
 const Sidebar = ({ selected, setSelected }) => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(true); 
+   const navigate = useNavigate();
 
   return (
     <motion.nav
       layout
-      className="sticky top-0 h-screen shrink-0 border-r border-gray-700 bg-gray-800 p-2"
+      className="sticky top-0 h-screen shrink-0 border-r border-gray-700 bg-[#287344] p-2 text-white"
       style={{
         width: open ? "225px" : "fit-content",
       }}
@@ -39,35 +42,35 @@ const Sidebar = ({ selected, setSelected }) => {
 
       <div className="space-y-1">
         <Option
-          Icon={FiHome}
+          Icon={FiBarChart2}
           title="Dashboard"
           selected={selected}
           setSelected={setSelected}
           open={open}
         />
         <Option
-          Icon={FiList}
+          Icon={FaUserPlus}
           title="Create User"
           selected={selected}
           setSelected={setSelected}
           open={open}
         />
         <Option
-          Icon={MdFoodBank}
+          Icon={IoCreate}
           title="Create Share"
           selected={selected}
           setSelected={setSelected}
           open={open}
         />
         <Option
-          Icon={CgGym}
+          Icon={IoBarChartOutline}
           title="Shares"
           selected={selected}
           setSelected={setSelected}
           open={open}
         />
         <Option
-          Icon={FiBarChart}
+          Icon={HiMiniUsers}
           title="Users"
           selected={selected}
           setSelected={setSelected}
@@ -78,8 +81,8 @@ const Sidebar = ({ selected, setSelected }) => {
       {/* Logout Button */}
       <motion.button
         layout
-        onClick={() => alert("Logout clicked!")} // Dummy logout action
-        className="mt-4 flex h-10 w-full items-center rounded-md text-gray-300 transition-colors hover:bg-gray-700 hover:text-white"
+        onClick={() => navigate('/')}
+        className="mt-4 flex h-10 w-full items-center rounded-md text-gray-300 transition-colors hover:bg-gray-600 hover:text-white"
       >
         <motion.div
           layout
@@ -112,15 +115,13 @@ const Option = ({ Icon, title, selected, setSelected, open, notifs }) => {
       onClick={() => setSelected(title)}
       className={`relative flex h-10 w-full items-center rounded-md transition-colors ${
         selected === title
-          ? "bg-blue-200 text-black"
-          : "text-gray-400 hover:bg-gray-700 hover:text-white"
+          ? "bg-[#f0fdf4] text-black"
+          : "text-white hover:bg-[#2e8b57]"
       }`}
     >
       <motion.div
         layout
-        className={`grid h-full w-10 place-content-center text-lg ${
-          selected === title ? "text-black" : "text-gray-400"
-        }`}
+        className="grid h-full w-10 place-content-center text-lg"
       >
         <Icon />
       </motion.div>
@@ -139,10 +140,7 @@ const Option = ({ Icon, title, selected, setSelected, open, notifs }) => {
       {notifs && open && (
         <motion.span
           initial={{ scale: 0, opacity: 0 }}
-          animate={{
-            opacity: 1,
-            scale: 1,
-          }}
+          animate={{ opacity: 1, scale: 1 }}
           style={{ y: "-50%" }}
           transition={{ delay: 0.5 }}
           className="absolute right-2 top-1/2 size-4 rounded bg-yellow-200 text-xs text-gray-900"
@@ -158,13 +156,8 @@ const TitleSection = ({ open }) => {
   return (
     <div className="mb-3 border-b border-gray-700 pb-3">
       <a href="/user/profile">
-        <div className="flex cursor-pointer items-center justify-between rounded-md transition-colors hover:bg-gray-700">
+        <div className="flex cursor-pointer items-center justify-between rounded-md transition-colors hover:bg-gray-600">
           <div className="flex items-center gap-2">
-            <a
-              href="https://www.flaticon.com/free-icons/farmer"
-              title="farmer icons"
-            ></a>
-
             {open && (
               <motion.div
                 layout
@@ -172,7 +165,7 @@ const TitleSection = ({ open }) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.125 }}
               >
-                <span className="block text-s font-bold font-serif text-blue-300">
+                <span className="block text-s font-bold font-serif text-[#f0fdf4]">
                   {"Officer"}
                 </span>
               </motion.div>
@@ -189,7 +182,7 @@ const ToggleClose = ({ open, setOpen }) => {
     <motion.button
       layout
       onClick={() => setOpen((pv) => !pv)}
-      className="absolute bottom-0 left-0 right-0 border-t border-gray-700 transition-colors hover:bg-gray-700"
+      className="absolute bottom-0 left-0 right-0 border-t border-gray-700 transition-colors hover:bg-gray-600"
     >
       <div className="flex items-center p-2">
         <motion.div
