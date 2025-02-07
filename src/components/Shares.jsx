@@ -15,6 +15,10 @@ const farmerData = [
     profitPercentage: "10%",
     shareDetails:
       "For 1 acre of Coconut farming this season, a 10% investment is ₹1,00,000. The buyer would receive 10% in profit.",
+    history: [
+      { investor: "Rajesh Sharma", percentage: "5%", amount: "₹50,000" },
+      { investor: "Priya Singh", percentage: "3%", amount: "₹30,000" },
+    ],
   },
   {
     id: 2,
@@ -26,6 +30,10 @@ const farmerData = [
     profitPercentage: "12%",
     shareDetails:
       "For 2 acres of Tomato farming this season, a 10% investment is ₹50,000. The buyer would receive 12% in profit.",
+    history: [
+      { investor: "Amit Verma", percentage: "4%", amount: "₹20,000" },
+      { investor: "Kavita Rao", percentage: "2%", amount: "₹10,000" },
+    ],
   },
   {
     id: 3,
@@ -37,56 +45,39 @@ const farmerData = [
     profitPercentage: "8%",
     shareDetails:
       "For 3 acres of Rice farming this season, a 10% investment is ₹75,000. The buyer would receive 8% in profit.",
+    history: [
+      { investor: "Suresh Kumar", percentage: "6%", amount: "₹45,000" },
+      { investor: "Meena Das", percentage: "3%", amount: "₹22,500" },
+    ],
   },
 ];
 
-const Slide = ({ farmer, current, handleSlideClick, openPopup }) => {
-  const isActive = current === farmer.id;
-  const classNames = `relative flex-shrink-0 w-full transition-opacity duration-500 ease-in-out ${
-    isActive ? "opacity-100" : "opacity-50"
-  }`;
-
+const Card = ({ farmer, openPopup }) => {
   return (
-    <li className={classNames} onClick={() => handleSlideClick(farmer.id)}>
-      <div className="relative w-full h-64 md:h-96 flex items-center justify-center">
-        <img
-          className="absolute inset-0 w-full h-full object-cover rounded-xl shadow-lg"
-          alt={farmer.name}
-          src={farmer.image}
-        />
-        <div className="relative z-10 text-white text-center bg-black bg-opacity-50 p-4 rounded-lg">
-          <img
-            src={farmer.image}
-            alt="farmer logo"
-            className="w-12 h-12 mx-auto mb-2 rounded-full"
-          />
-          <h2 className="text-lg md:text-2xl font-bold">{farmer.name}</h2>
-          <p className="text-sm">{farmer.crops}</p>
-          <p className="text-xs mt-1">Location: {farmer.location}</p>
-          <p className="text-xs mt-1">Profit/Loss: {farmer.profitPercentage}</p>
-          <button
-            className="mt-2 px-4 py-2 bg-green-500 hover:bg-green-600 rounded-lg text-white"
-            onClick={() => openPopup(farmer)}
-          >
-            View Details
-          </button>
-        </div>
-      </div>
-    </li>
+    <div className="bg-green-100 p-4 rounded-lg shadow-lg w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
+      <img
+        src={farmer.image}
+        alt={farmer.name}
+        className="w-full h-32 object-cover rounded-lg mb-2"
+      />
+      <h2 className="text-lg font-bold text-gray-800">{farmer.name}</h2>
+      <p className="text-sm text-gray-600">{farmer.crops}</p>
+      <p className="text-xs text-gray-500">Location: {farmer.location}</p>
+      <p className="text-xs text-gray-500">
+        Profit/Loss: {farmer.profitPercentage}
+      </p>
+      <button
+        className="mt-2 px-4 py-2 bg-green-500 hover:bg-green-600 rounded-lg text-white"
+        onClick={() => openPopup(farmer)}
+      >
+        View Details
+      </button>
+    </div>
   );
 };
 
-const Slider = ({ heading }) => {
-  const [current, setCurrent] = useState(1);
+const Shares = () => {
   const [selectedFarmer, setSelectedFarmer] = useState(null);
-
-  const handlePreviousClick = () => {
-    setCurrent((prev) => (prev === 1 ? farmerData.length : prev - 1));
-  };
-
-  const handleNextClick = () => {
-    setCurrent((prev) => (prev === farmerData.length ? 1 : prev + 1));
-  };
 
   const openPopup = (farmer) => {
     setSelectedFarmer(farmer);
@@ -97,66 +88,52 @@ const Slider = ({ heading }) => {
   };
 
   return (
-    <div className="relative w-full max-w-4xl mx-auto mt-8">
-      <h3 className="text-center text-2xl font-bold mb-4">{heading}</h3>
-      <div className="overflow-hidden relative w-full">
-        <ul
-          className="flex transition-transform duration-500"
-          style={{ transform: `translateX(-${(current - 1) * 100}%)` }}
-        >
-          {farmerData.map((farmer) => (
-            <Slide
-              key={farmer.id}
-              farmer={farmer}
-              current={current}
-              handleSlideClick={setCurrent}
-              openPopup={openPopup}
-            />
-          ))}
-        </ul>
-      </div>
-      <div className="absolute top-1/2 transform -translate-y-1/2 left-2 md:left-4">
-        <button
-          className="p-2 bg-gray-800 text-white rounded-full shadow-lg hover:bg-gray-700"
-          onClick={handlePreviousClick}
-        >
-          &#8592;
-        </button>
-      </div>
-      <div className="absolute top-1/2 transform -translate-y-1/2 right-2 md:right-4">
-        <button
-          className="p-2 bg-gray-800 text-white rounded-full shadow-lg hover:bg-gray-700"
-          onClick={handleNextClick}
-        >
-          &#8594;
-        </button>
+    <div className="p-4">
+      <h3 className="text-center text-2xl font-bold mb-4">Farmer Shares</h3>
+      <div className="flex flex-wrap gap-10 justify-center mt-10">
+        {farmerData.map((farmer) => (
+          <Card key={farmer.id} farmer={farmer} openPopup={openPopup} />
+        ))}
       </div>
 
-      {/* Popup Modal for Share Details */}
       {selectedFarmer && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 text-black">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full text-center relative">
-            <h2 className="text-xl font-bold mb-2">{selectedFarmer.name}</h2>
-            <p className="text-sm mb-2">{selectedFarmer.shareDetails}</p>
+        <div className="fixed inset-0  bg-opacity-50 flex justify-center items-center">
+          <div className="relative bg-white p-6 rounded-lg shadow-xl w-96 max-w-full">
             <button
-              className="mt-4 px-4 py-2 bg-red-500 hover:bg-red-600 rounded-lg text-white"
+              className="absolute top-2 right-2 h-10 w-10  text-gray-600 hover:text-gray-800 text-xl"
               onClick={closePopup}
             >
-              Close
+              &times;
             </button>
+            <h2 className="text-lg font-bold mb-2 text-center">
+              {selectedFarmer.name}
+            </h2>
+            <img
+              src={selectedFarmer.image}
+              alt={selectedFarmer.name}
+              className="w-24 h-24 mx-auto rounded-full mb-2 border-2 border-green-500"
+            />
+            <p className="text-sm mb-2 text-center text-gray-700">
+              {selectedFarmer.shareDetails}
+            </p>
+            <h3 className="text-md font-semibold mt-4 text-gray-800">
+              Investment History:
+            </h3>
+            <ul className="text-sm text-gray-600 space-y-1">
+              {selectedFarmer.history.map((entry, index) => (
+                <li key={index} className="border-b py-1">
+                  <span className="font-medium text-gray-800">
+                    {entry.investor}:
+                  </span>{" "}
+                  {entry.percentage} ({entry.amount})
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       )}
     </div>
   );
 };
-
-function Shares() {
-  return (
-    <div className="p-4">
-      <Slider heading="Farmer Shares" />
-    </div>
-  );
-}
 
 export default Shares;
