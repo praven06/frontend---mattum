@@ -5,14 +5,13 @@ import logo3 from "../assets/logo3.jpg";
 import { motion } from "framer-motion";
 
 const Users = () => {
-  
   const [farmers, setFarmers] = useState([
     {
       id: 1,
       name: "Arun Kumar",
       location: "Coimbatore, Tamil Nadu",
       crops: "Coconut, Banana",
-      image: logo1, 
+      image: logo1,
     },
     {
       id: 2,
@@ -63,7 +62,7 @@ const Users = () => {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 h-full bg-green-50">
       <motion.h1
         className="text-2xl font-bold mb-4"
         initial={{ opacity: 0, y: -20 }}
@@ -79,7 +78,7 @@ const Users = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.7 }}
       >
-        <thead className="bg-gray-100 text-black">
+        <thead className="bg-[#287344] text-white">
           <tr>
             <th className="border p-2">Image</th>
             <th className="border p-2">Name</th>
@@ -97,7 +96,7 @@ const Users = () => {
               transition={{ duration: 0.3 }}
               className="border"
             >
-              <td className=" pt-2 flex justify-center items-center">
+              <td className="pt-2 flex justify-center items-center">
                 <img
                   src={farmer.image}
                   className="w-16 h-16 rounded-full"
@@ -140,7 +139,7 @@ const Users = () => {
                   farmer.crops
                 )}
               </td>
-              <td className="  flex  relative top-1/4 left-1/4 ">
+              <td className=" h-12 flex flex-row justify-center items-center gap-2">
                 {editingFarmer === farmer.id ? (
                   <button
                     onClick={() => handleSave(farmer.id)}
@@ -151,7 +150,7 @@ const Users = () => {
                 ) : (
                   <button
                     onClick={() => handleEdit(farmer)}
-                    className="bg-blue-500 text-white px-3 py-1 rounded"
+                    className="bg-[#287342]  text-white px-3 py-1 rounded"
                   >
                     Edit
                   </button>
