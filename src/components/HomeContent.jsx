@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import CreateShare from "./CreateShare";
 import Dashboard from "./Dashboard";
 import Shares from "./Shares";
 import Users from "./Users";
@@ -18,5 +19,5 @@ function HomeContent({ selected }) {
 export default HomeContent;
 
 
-const CreateShare = () => <div>View analytics here.</div>;
+
 const CreateUser = () => <div>Plan your workouts here.</div>;
