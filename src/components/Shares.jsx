@@ -3,6 +3,7 @@ import { useState } from "react";
 import logo1 from "../assets/logo1.jpg";
 import logo2 from "../assets/logo2.jpg";
 import logo3 from "../assets/logo3.jpg";
+import { motion } from "framer-motion";
 
 const farmerData = [
   {
@@ -54,20 +55,20 @@ const farmerData = [
 
 const Card = ({ farmer, openPopup }) => {
   return (
-    <div className="bg-green-100 p-4 rounded-lg shadow-lg w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
+    <div className="bg-green-100 lex flex-col space-y-2 p-4 rounded-lg shadow-lg w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
       <img
         src={farmer.image}
         alt={farmer.name}
         className="w-full h-32 object-cover rounded-lg mb-2"
       />
       <h2 className="text-lg font-bold text-gray-800">{farmer.name}</h2>
-      <p className="text-sm text-gray-600">{farmer.crops}</p>
-      <p className="text-xs text-gray-500">Location: {farmer.location}</p>
-      <p className="text-xs text-gray-500">
-        Profit/Loss: {farmer.profitPercentage}
-      </p>
+      <div className="flex flex-col space-y-0.5">
+        <p className="text-sm text-gray-600 font-semibold">{farmer.crops}</p>
+        <p className="text-xs text-gray-500"><span className="font-semibold">Location: </span><span className="font-medium">{farmer.location}</span></p>
+        <p className="text-xs text-gray-500"><span className="font-semibold">Profit/Loss: </span><span className="font-medium">{farmer.profitPercentage}</span></p>
+      </div>
       <button
-        className="mt-2 px-4 py-2 bg-green-500 hover:bg-green-600 rounded-lg text-white"
+        className="mt-2 px-4 py-2 bg-green-500 hover:bg-green-600 rounded-lg text-white hover:shadow-lg transition-all"
         onClick={() => openPopup(farmer)}
       >
         View Details
@@ -89,21 +90,27 @@ const Shares = () => {
 
   return (
     <div className="p-4">
-      <h3 className="text-center text-2xl font-bold mb-4">Farmer Shares</h3>
-      <div className="flex flex-wrap gap-10 justify-center mt-10">
+      <motion.h1
+        className="text-3xl font-bold mb-6 px-4 pt-2 text-[#287344]"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        Shares Panel
+      </motion.h1>
+      <div className="flex flex-wrap gap-10 justify-center mt-4">
         {farmerData.map((farmer) => (
           <Card key={farmer.id} farmer={farmer} openPopup={openPopup} />
         ))}
       </div>
 
       {selectedFarmer && (
-        <div className="fixed inset-0  bg-opacity-50 flex justify-center items-center">
-          <div className="relative bg-white p-6 rounded-lg shadow-xl w-96 max-w-full">
+        <div className="fixed inset-0 bg-opacity-50 flex justify-center items-center">
+          <div className="relative bg-white p-6 rounded-lg shadow-xl w-2/6 h-4/6">
             <button
-              className="absolute top-2 right-2 h-10 w-10  text-gray-600 hover:text-gray-800 text-xl"
+              className="absolute top-2 right-2 h-10 w-10 cursor-pointer rounded-sm text-gray-600 hover:text-gray-800 text-lg hover:bg-[#00002f23]"
               onClick={closePopup}
             >
-              &times;
+              X
             </button>
             <h2 className="text-lg font-bold mb-2 text-center">
               {selectedFarmer.name}
@@ -116,12 +123,12 @@ const Shares = () => {
             <p className="text-sm mb-2 text-center text-gray-700">
               {selectedFarmer.shareDetails}
             </p>
-            <h3 className="text-md font-semibold mt-4 text-gray-800">
+            <h3 className="text-md font-semibold mt-4 mb-1 text-gray-800">
               Investment History:
             </h3>
-            <ul className="text-sm text-gray-600 space-y-1">
+            <ul className="text-sm text-gray-600 space-y-2">
               {selectedFarmer.history.map((entry, index) => (
-                <li key={index} className="border-b py-1">
+                <li key={index} className="border-b pb-2">
                   <span className="font-medium text-gray-800">
                     {entry.investor}:
                   </span>{" "}

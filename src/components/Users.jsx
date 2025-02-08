@@ -64,10 +64,9 @@ const Users = () => {
   return (
     <div className="p-6 h-full bg-green-50">
       <motion.h1
-        className="text-2xl font-bold mb-4"
+        className="text-3xl font-bold mb-6 text-[#287344]"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
       >
         Admin - Farmers Management (Coimbatore District)
       </motion.h1>
@@ -96,7 +95,7 @@ const Users = () => {
               transition={{ duration: 0.3 }}
               className="border"
             >
-              <td className="pt-2 flex justify-center items-center">
+              <td className="p-2 flex justify-center items-center">
                 <img
                   src={farmer.image}
                   className="w-16 h-16 rounded-full"
@@ -139,29 +138,31 @@ const Users = () => {
                   farmer.crops
                 )}
               </td>
-              <td className=" h-12 flex flex-row justify-center items-center gap-2">
-                {editingFarmer === farmer.id ? (
-                  <button
+              <td className="gap-2">
+                <div className="flex justify-around">
+                  {editingFarmer === farmer.id ? (
+                    <button
                     onClick={() => handleSave(farmer.id)}
                     className="bg-green-500 text-white px-3 py-1 rounded"
-                  >
-                    Save
-                  </button>
-                ) : (
-                  <button
+                    >
+                      Save
+                    </button>
+                  ) : (
+                    <button
                     onClick={() => handleEdit(farmer)}
                     className="bg-[#287342]  text-white px-3 py-1 rounded"
-                  >
-                    Edit
-                  </button>
-                )}
+                    >
+                      Edit
+                    </button>
+                  )}
                 <motion.button
                   onClick={() => handleDelete(farmer.id)}
                   className="bg-red-500 text-white px-3 py-1 rounded"
                   whileHover={{ scale: 1.1 }}
-                >
+                  >
                   Delete
                 </motion.button>
+                </div>
               </td>
             </motion.tr>
           ))}
