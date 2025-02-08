@@ -72,7 +72,7 @@ const CreateShare = () => {
       </motion.h1>
 
       <button
-        className="bg-red-600 text-white px-4 py-2 rounded-lg flex items-center mb-6"
+        className="bg-red-600 text-white px-4 py-2 rounded-lg flex items-center mb-6 hover:shadow-lg hover:bg-red-800 transition-all"
         onClick={clearProcessedShares}
       >
         <FiTrash2 className="mr-2" /> Clear Approved & Rejected Shares
