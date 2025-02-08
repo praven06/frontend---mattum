@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import CreateShare from "./CreateShare";
+import CreateUser from "./CreateUser";
 import Dashboard from "./Dashboard";
 import Shares from "./Shares";
 import Users from "./Users";
@@ -7,7 +8,7 @@ import Users from "./Users";
 
 function HomeContent({ selected }) {
   return (
-    <div className="w-full h-screen">
+    <div className="w-full transition-all h-screen">
       {selected === "Dashboard" && <Dashboard />}
       {selected === "Create User" && <CreateUser />}
       {selected === "Create Share" && <CreateShare />}
@@ -18,6 +19,3 @@ function HomeContent({ selected }) {
 }
 export default HomeContent;
 
-
-
-const CreateUser = () => <div>Plan your workouts here.</div>;

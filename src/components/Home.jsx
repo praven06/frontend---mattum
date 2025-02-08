@@ -82,7 +82,7 @@ const Sidebar = ({ selected, setSelected }) => {
       <motion.button
         layout
         onClick={() => navigate('/')}
-        className="mt-4 flex h-10 w-full items-center rounded-md text-gray-300 transition-colors hover:bg-gray-600 hover:text-white"
+        className="mt-4 flex h-10 w-full items-center rounded-md text-gray-300 transition-colors hover:bg-[#0000002e] hover:text-white"
       >
         <motion.div
           layout
@@ -96,7 +96,7 @@ const Sidebar = ({ selected, setSelected }) => {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.125 }}
-            className="text-xs font-medium"
+            className="text-sm font-medium"
           >
             Logout
           </motion.span>
@@ -131,7 +131,7 @@ const Option = ({ Icon, title, selected, setSelected, open, notifs }) => {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.125 }}
-          className="text-xs font-medium"
+          className="text-sm font-medium"
         >
           {title}
         </motion.span>
@@ -154,19 +154,20 @@ const Option = ({ Icon, title, selected, setSelected, open, notifs }) => {
 
 const TitleSection = ({ open }) => {
   return (
-    <div className="mb-3 border-b border-gray-700 pb-3">
+    <div className="mb-3 border-b border-gray-700">
       <a href="/user/profile">
-        <div className="flex cursor-pointer items-center justify-between rounded-md transition-colors hover:bg-gray-600">
+        <div className="flex p-2 m-1 mb-3 cursor-pointer items-center justify-between rounded-md hover:bg-[#0000002e] transition-colors">
           <div className="flex items-center gap-2">
             {open && (
               <motion.div
+                className=""
                 layout
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.125 }}
               >
-                <span className="block text-s font-bold font-serif text-[#f0fdf4]">
-                  {"Officer"}
+                <span className="block text-lg font-bold tracking-widest text-[#f0fdf4]">
+                  {"VAO"}
                 </span>
               </motion.div>
             )}
@@ -182,7 +183,7 @@ const ToggleClose = ({ open, setOpen }) => {
     <motion.button
       layout
       onClick={() => setOpen((pv) => !pv)}
-      className="absolute bottom-0 left-0 right-0 border-t border-gray-700 transition-colors hover:bg-gray-600"
+      className="absolute bottom-0 left-0 right-0 border-t border-gray-700 transition-colors hover:bg-[#0000002e] "
     >
       <div className="flex items-center p-2">
         <motion.div
