@@ -7,3 +7,18 @@ body {
     font-style: normal;
     user-select: none;
 }
+.main-content {
+    background: linear-gradient(
+      135deg,
+      #f0fdf4 0%,
+      #ecfdf3 100%
+    );
+  }
+  
+  .card {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(203, 213, 195, 0.3);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  }

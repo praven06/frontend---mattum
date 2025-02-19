@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Button, TextField, Box, Stepper, Step, StepLabel, Paper, LinearProgress, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Checkbox } from "@mui/material";
 import { motion } from "framer-motion";
 import { MdPerson, MdEmail, MdOutlineLandscape, MdAttachFile, MdCheckCircle } from "react-icons/md"; // Importing icons from react-icons
+import { FiCheck, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 // import backgroundImage from './assets/pexels-reto-burkler-640438-1443867.jpg'; // Adjust the path as necessary
 
 const steps = ["Personal Info", "Contact Details", "Land Details", "Legal Documents", "Review & Submit"];
@@ -47,7 +48,7 @@ const StepContent = ({ step, formData, handleChange }) => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -50 }}
       transition={{ duration: 0.5, type: "spring" }}
-      className="p-6 pt-4 bg-white shadow-lg rounded-lg"
+      className="p-6 pt-4 bg-white/80 backdrop-blur-sm shadow-md rounded-xl border border-gray-100"
     >
       {step === 0 && (
         <Box>
@@ -458,47 +459,92 @@ export default function CreateUser() {
     }
   };
   const handleBack = () => setActiveStep((prev) => prev - 1);
-
   return (
-    <section className="h-dvh flex bg-[#f0fdf4]">
-        <Paper elevation={3} className="flex flex-col justify-between flex-1 p-4 py-8" sx={{backgroundColor:"#f0fdf4"}}>
-            <div className="overflow-y-auto">
-                <Stepper activeStep={activeStep} alternativeLabel>
-                    {steps.map((label, index) => (
-                        <Step key={index}>
-                        <StepLabel StepIconComponent={StepIcon}>
-                        <span className="text-sm">{label}</span>
-                        </StepLabel>
-                    </Step>
-                    ))}
-                </Stepper>
-                <LinearProgress variant="determinate" value={(activeStep / (steps.length - 1)) * 100} className="my-4" style={{ backgroundColor: '#287344' }} />
-                <StepContent step={activeStep} formData={formData} handleChange={handleChange} />
-            </div>
-            <Box className="flex justify-between mt-4">
-                <Button disabled={activeStep === 0} onClick={handleBack} className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition duration-200">Back</Button>
-                <Button onClick={handleNext} style={{ backgroundColor: '#287344', color: '#fff' }} className="px-4 py-2 rounded-lg hover:bg-[#1f5e3d] transition duration-200">{activeStep === steps.length - 1 ? "Finish" : "Next"}</Button>
-            </Box>
-          {showTick && (
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0 }}
-              transition={{ duration: 0.5 }}
-              className="flex justify-center items-center mt-4"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-12 w-12 text-green-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+    <section className="h-dvh flex bg-gradient-to-br from-[#f0fdf4] to-[#e0f8e9]">
+    <Paper elevation={3} className="flex flex-col justify-between flex-1 p-4 py-8 max-w-4xl mx-auto my-8 rounded-2xl" sx={{backgroundColor: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(10px)'}}>
+      <div className="overflow-y-auto px-4">
+        <Stepper activeStep={activeStep} alternativeLabel>
+          {steps.map((label, index) => (
+            <Step key={index}>
+              <StepLabel 
+                StepIconComponent={StepIcon}
+                sx={{
+                  '& .MuiStepLabel-label': {
+                    fontSize: '0.8rem',
+                    fontWeight: 600,
+                    color: activeStep >= index ? '#287344' : '#94a3b8'
+                  }
+                }}
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-            </motion.div>
-          )}
-        </Paper>
-    </section>
+              </StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+        
+        <LinearProgress 
+          variant="determinate" 
+          value={(activeStep / (steps.length - 1)) * 100} 
+          className="my-6 h-2 rounded-full" 
+          sx={{
+            '& .MuiLinearProgress-bar': {
+              backgroundColor: '#287344',
+              borderRadius: '4px'
+            },
+            backgroundColor: '#c6f6d5'
+          }} 
+        />
+
+        <StepContent step={activeStep} formData={formData} handleChange={handleChange} />
+
+        <Box className="flex justify-between mt-8 gap-4">
+          <Button 
+            disabled={activeStep === 0} 
+            onClick={handleBack}
+            className="bg-gray-100 text-gray-600 px-6 py-3 rounded-xl hover:bg-gray-200 transition-all font-semibold shadow-sm"
+            startIcon={<FiChevronLeft className="text-lg" />}
+          >
+            Back
+          </Button>
+          
+          <Button 
+            onClick={handleNext}
+            className="px-8 py-3 rounded-xl font-semibold shadow-lg hover:shadow-md transition-all"
+            style={{ 
+              backgroundColor: '#287344',
+              color: '#fff',
+              ...(activeStep === steps.length - 1 && {
+                backgroundColor: '#22c55e'
+              })
+            }}
+            endIcon={activeStep === steps.length - 1 ? (
+              <FiCheck className="text-lg" />
+            ) : (
+              <FiChevronRight className="text-lg" />
+            )}
+          >
+            {activeStep === steps.length - 1 ? "Submit Application" : "Continue"}
+          </Button>
+        </Box>
+
+        {showTick && (
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }}
+            transition={{ type: 'spring', stiffness: 200 }}
+            className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center"
+          >
+            <div className="bg-white p-8 rounded-2xl text-center shadow-xl">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+                <FiCheck className="h-8 w-8 text-green-600" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Application Submitted!</h3>
+              <p className="text-gray-600">Your details have been successfully recorded</p>
+            </div>
+          </motion.div>
+        )}
+      </div>
+    </Paper>
+  </section>
   );
 }

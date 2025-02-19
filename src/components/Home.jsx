@@ -19,7 +19,7 @@ export const Home = () => {
   const navigate = useNavigate()
   const [selected, setSelected] = useState("Dashboard");
   return (
-    <div className="flex bg-[#f0fdf4] text-gray-900">
+    <div className="fh-dvh flex bg-[#f0fdf4] text-gray-900 overflow-y-scroll">
       <Sidebar selected={selected} setSelected={setSelected} />
       <HomeContent selected={selected} />
     </div>
@@ -27,20 +27,19 @@ export const Home = () => {
 };
 
 const Sidebar = ({ selected, setSelected }) => {
-  const [open, setOpen] = useState(true); 
-   const navigate = useNavigate();
+  const [open, setOpen] = useState(true);
+  const navigate = useNavigate();
 
   return (
     <motion.nav
       layout
-      className="sticky top-0 h-screen shrink-0 border-r border-gray-700 bg-[#287344] p-2 text-white"
-      style={{
-        width: open ? "225px" : "fit-content",
-      }}
+      className={`sticky top-0 h-screen shrink-0 bg-emerald-800 p-3 text-white transition-all duration-300 ${
+        open ? "w-64" : "w-20"
+      }`}
     >
       <TitleSection open={open} />
 
-      <div className="space-y-1">
+      <div className="space-y-2 mt-6">
         <Option
           Icon={FiBarChart2}
           title="Dashboard"
@@ -82,22 +81,13 @@ const Sidebar = ({ selected, setSelected }) => {
       <motion.button
         layout
         onClick={() => navigate('/')}
-        className="mt-4 flex h-10 w-full items-center rounded-md text-gray-300 transition-colors hover:bg-[#0000002e] hover:text-white"
+        className="mt-auto flex h-12 w-full items-center rounded-lg bg-emerald-700/30 hover:bg-emerald-700/40 transition-colors"
       >
-        <motion.div
-          layout
-          className="grid h-full w-10 place-content-center text-lg"
-        >
+        <div className="grid h-12 w-12 place-content-center text-lg">
           <FiLogOut />
-        </motion.div>
+        </div>
         {open && (
-          <motion.span
-            layout
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.125 }}
-            className="text-sm font-medium"
-          >
+          <motion.span className="text-sm font-medium">
             Logout
           </motion.span>
         )}
@@ -108,45 +98,30 @@ const Sidebar = ({ selected, setSelected }) => {
   );
 };
 
-const Option = ({ Icon, title, selected, setSelected, open, notifs }) => {
+const Option = ({ Icon, title, selected, setSelected, open }) => {
   return (
     <motion.button
       layout
       onClick={() => setSelected(title)}
-      className={`relative flex h-10 w-full items-center rounded-md transition-colors ${
+      className={`group relative flex h-12 w-full items-center rounded-lg transition-all ${
         selected === title
-          ? "bg-[#f0fdf4] text-black"
-          : "text-white hover:bg-[#2e8b57]"
+          ? "bg-emerald-50 text-emerald-800 font-semibold shadow-sm"
+          : "text-emerald-100 hover:bg-emerald-700/40"
       }`}
     >
-      <motion.div
-        layout
-        className="grid h-full w-10 place-content-center text-lg"
-      >
-        <Icon />
-      </motion.div>
+      <div className="grid h-12 w-12 place-content-center">
+        <Icon className={`text-xl ${selected === title ? 'text-emerald-700' : 'text-emerald-200'}`} />
+      </div>
       {open && (
-        <motion.span
-          layout
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.125 }}
-          className="text-sm font-medium"
-        >
+        <motion.span className="text-sm tracking-wide">
           {title}
         </motion.span>
       )}
-
-      {notifs && open && (
-        <motion.span
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          style={{ y: "-50%" }}
-          transition={{ delay: 0.5 }}
-          className="absolute right-2 top-1/2 size-4 rounded bg-yellow-200 text-xs text-gray-900"
-        >
-          {notifs}
-        </motion.span>
+      
+      {!open && (
+        <div className="absolute left-full ml-3 hidden group-hover:flex bg-emerald-900 text-white px-3 py-2 rounded-lg shadow-lg">
+          <span className="text-sm whitespace-nowrap">{title}</span>
+        </div>
       )}
     </motion.button>
   );
@@ -154,26 +129,13 @@ const Option = ({ Icon, title, selected, setSelected, open, notifs }) => {
 
 const TitleSection = ({ open }) => {
   return (
-    <div className="mb-3 border-b border-gray-700">
-      <a href="/user/profile">
-        <div className="flex p-2 m-1 mb-3 cursor-pointer items-center justify-between rounded-md hover:bg-[#0000002e] transition-colors">
-          <div className="flex items-center gap-2">
-            {open && (
-              <motion.div
-                className=""
-                layout
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.125 }}
-              >
-                <span className="block text-lg font-bold tracking-widest text-[#f0fdf4]">
-                  {"VAO"}
-                </span>
-              </motion.div>
-            )}
-          </div>
-        </div>
-      </a>
+    <div className="flex items-center justify-center h-16 border-b border-emerald-700/40">
+      <motion.div
+        className="flex items-center gap-2 text-emerald-50"
+        animate={open ? { opacity: 1 } : { opacity: 0 }}
+      >
+        <span className="text-2xl font-bold tracking-tight">VAO</span>
+      </motion.div>
     </div>
   );
 };
@@ -182,30 +144,12 @@ const ToggleClose = ({ open, setOpen }) => {
   return (
     <motion.button
       layout
-      onClick={() => setOpen((pv) => !pv)}
-      className="absolute bottom-0 left-0 right-0 border-t border-gray-700 transition-colors hover:bg-[#0000002e] "
+      onClick={() => setOpen(!open)}
+      className="absolute -right-3 top-6 bg-emerald-800 border-2 border-emerald-50 rounded-full p-1.5 shadow-lg hover:bg-emerald-700 transition-colors"
     >
-      <div className="flex items-center p-2">
-        <motion.div
-          layout
-          className="grid size-10 place-content-center text-lg"
-        >
-          <FiChevronsRight
-            className={`transition-transform ${open && "rotate-180"}`}
-          />
-        </motion.div>
-        {open && (
-          <motion.span
-            layout
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.125 }}
-            className="text-xs font-medium"
-          >
-            Hide
-          </motion.span>
-        )}
-      </div>
+      <FiChevronsRight
+        className={`text-emerald-50 transition-transform ${open ? "rotate-180" : ""}`}
+      />
     </motion.button>
   );
 };
